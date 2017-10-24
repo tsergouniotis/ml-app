@@ -1,0 +1,66 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>ml-app-docker</artifactId>
+	<packaging>jar</packaging>
+
+	<name>ml Docker</name>
+	<url>http://www.tns.com/</url>
+	<description>Maven module for ml Dockerization</description>
+
+	<parent>
+		<groupId>com.tns</groupId>
+		<artifactId>ml-app-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../ml-app-parent/pom.xml</relativePath>
+	</parent>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<configuration>
+					<skipDockerBuild>false</skipDockerBuild>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+							<excludeTypes>jar</excludeTypes>
+							<stripVersion>true</stripVersion>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+
+	<dependencies>
+	
+		<dependency>
+			<groupId>com.tns</groupId>
+			<artifactId>ml-app-core</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+
+	</dependencies>
+
+
+
+
+</project>

@@ -1,0 +1,27 @@
+version: '3'
+services:
+  mldb:
+    container_name: mldb
+    image: postgres:9.5
+    ports:
+    - 5432:5432
+    environment:
+    - POSTGRES_USER=ml
+    - POSTGRES_PASSWORD=ml
+    networks:
+    - ml_net
+  mlcore:
+    container_name: ml
+    image: tns/ml-app-docker
+    ports:
+    - 8080:8080
+    - 8787:8787
+    depends_on:
+    - mldb
+    env_file:
+    - dev.env
+    networks:
+    - ml_net
+networks:
+  ml_net:
+    driver: bridge

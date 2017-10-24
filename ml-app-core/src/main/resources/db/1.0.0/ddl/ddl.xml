@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+	<changeSet author="thanasis.sergouniotis" id="create-users-table">
+
+		<createTable tableName="users">
+			<column name="database_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="username" type="TEXT">
+				<constraints unique="true" />
+			</column>
+			<column name="firstname" type="TEXT" />
+			<column name="surname" type="TEXT" />
+			<column name="password" type="TEXT" />
+			<column name="email" type="TEXT" />
+			<column name="created_at" type="DATETIME" defaultValueDate="CURRENT_TIMESTAMP" />
+			<column name="updated_at" type="DATETIME" />
+		</createTable>
+
+		<addPrimaryKey tableName="users" columnNames="database_id" />
+
+		<createSequence sequenceName="userseq" incrementBy="1"
+			startValue="1" />
+
+		<createIndex tableName="users" indexName="username_idx">
+			<column name="username" />
+		</createIndex>
+	</changeSet>
+
+
+	<changeSet author="thanasis.sergouniotis" id="create-iris-table">
+
+		<createSequence sequenceName="flowers_record_seq"
+			startValue="1" incrementBy="50" />
+
+		<createTable tableName="flowers">
+			<column name="database_id" type="NUMBER" />
+			
+			<column name="category" type="TEXT" />
+			<column name="petal_length" type="NUMBER" />
+			<column name="petal_width" type="NUMBER" />
+			<column name="sepal_length" type="NUMBER" />
+			<column name="sepal_width" type="NUMBER" />
+
+			<column name="optlock" type="NUMBER" />
+
+		</createTable>
+
+		<addPrimaryKey tableName="flowers" columnNames="database_id" />
+
+		<createIndex tableName="flowers" indexName="flowers_table_index">
+			<column name="petal_length" />
+			<column name="petal_width" />
+			<column name="sepal_length" />
+			<column name="sepal_width" />
+		</createIndex>
+
+		<createIndex tableName="flowers" indexName="flowers_temp_index">
+			<column name="petal_length" />
+		</createIndex>
+
+		<createIndex tableName="flowers" indexName="flowers_acidity_index">
+			<column name="petal_width" />
+		</createIndex>
+
+		<createIndex tableName="flowers" indexName="flowers_ethanol_index">
+			<column name="sepal_length" />
+		</createIndex>
+
+		<createIndex tableName="flowers" indexName="flowers_duration_index">
+			<column name="sepal_width" />
+		</createIndex>
+
+	</changeSet>
+
+
+</databaseChangeLog>

@@ -1,0 +1,38 @@
+connect 127.0.0.1
+ 
+batch
+
+/subsystem=undertow/configuration=filter/response-header=cors-allowed-headers-header/:add(header-name=Access-Control-Allow-Headers,header-value="X-requested-with, Content-Type, Origin, Authorization, Accept")
+/subsystem=undertow/configuration=filter/response-header=cors-allowed-origin/:add(header-name=Access-Control-Allow-Origin,header-value=*)
+/subsystem=undertow/configuration=filter/response-header=cors-allowed-methods/:add(header-name=Access-Control-Allow-Methods,header-value="GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH")
+/subsystem=undertow/configuration=filter/response-header=cors-expose-headers/:add(header-name=Access-Control-Expose-Headers,header-value="Custom-Token")
+
+/subsystem=undertow/server=default-server/host=default-host/filter-ref=cors-allowed-headers-header/:add(priority=1)
+/subsystem=undertow/server=default-server/host=default-host/filter-ref=cors-allowed-origin/:add(priority=1)
+/subsystem=undertow/server=default-server/host=default-host/filter-ref=cors-allowed-methods/:add(priority=1)
+
+module add --name=org.postgres --resources=/opt/postgresql-42.0.0.jar --dependencies=javax.api,javax.transaction.api
+/subsystem=datasources/jdbc-driver=postgres:add(driver-name="postgres",driver-module-name="org.postgres",driver-class-name=org.postgresql.Driver)
+data-source add --jndi-name=java:jboss/ml/jdbc/ds --name=MLDBPool --connection-url=jdbc:postgresql://mldb:5432/ml --driver-name=postgres --user-name=ml --password=ml
+
+/subsystem=logging/file-handler=ml-log:add(file={"path"=>"ml.log","relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/file-handler=ml-log:change-log-level(level="DEBUG")
+/subsystem=logging/file-handler=ml-log:write-attribute(name="append", value="true")
+/subsystem=logging/file-handler=ml-log:write-attribute(name="autoflush", value="false")
+/subsystem=logging/file-handler=ml-log:write-attribute(name="formatter", value="%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n")
+
+/subsystem=logging/logger=com.tns.core:add
+/subsystem=logging/logger=com.tns.core:write-attribute(name="level", value="DEBUG")
+#/subsystem=logging/logger=com.tns.core:assign-handler(name="ml-log")
+
+/subsystem=undertow/configuration=handler/file=dashboard:add(path="${jboss.home.dir}/dashboard", directory-listing="false")
+/subsystem=undertow/server=default-server/host=default-host/location=dashboard:add(handler=dashboard)
+
+ /subsystem=ee:write-attribute(name="global-modules",value=[{"name" => "com.fasterxml.jackson.datatype.jackson-datatype-jsr310","slot" => "main"}])
+  
+#create the queue
+/subsystem=messaging-activemq/server=default/jms-queue=IrisQueue:add(entries=[java:/jms/queue/IrisQueue])
+
+deploy /opt/ml-app-core.war
+
+run-batch

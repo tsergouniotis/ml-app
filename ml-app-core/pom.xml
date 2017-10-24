@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.tns</groupId>
+		<artifactId>ml-app-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../ml-app-parent/pom.xml</relativePath>
+	</parent>
+	<artifactId>ml-app-core</artifactId>
+	<packaging>war</packaging>
+	<name>ML Core</name>
+	<description>The Core module</description>
+	<organization>
+		<name>TNS</name>
+		<url>http://www.tns.com</url>
+	</organization>
+
+	<properties>
+		<liquibase.version>3.5.3</liquibase.version>
+		<version.shrinkwrap>1.2.6</version.shrinkwrap>
+		<version.jjwt>0.7.0</version.jjwt>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.jboss.arquillian</groupId>
+				<artifactId>arquillian-bom</artifactId>
+				<version>1.1.12.Final</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<!-- clip -->
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.17</version>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>${version.jjwt}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>3.5.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>1.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-math3</artifactId>
+			<version>3.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.22</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+			<version>2.7.4</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-validator-provider-11</artifactId>
+			<version>3.0.19.Final</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.jboss.shrinkwrap</groupId>
+			<artifactId>shrinkwrap-depchain</artifactId>
+			<type>pom</type>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-container</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.arquillian.container</groupId>
+			<artifactId>arquillian-weld-ee-embedded-1.1</artifactId>
+			<version>1.0.0.CR9</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.weld</groupId>
+			<artifactId>weld-core</artifactId>
+			<version>2.3.5.Final</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>
