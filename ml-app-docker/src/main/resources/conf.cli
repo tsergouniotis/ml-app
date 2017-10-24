@@ -25,10 +25,10 @@ data-source add --jndi-name=java:jboss/ml/jdbc/ds --name=MLDBPool --connection-u
 /subsystem=logging/logger=com.tns.core:write-attribute(name="level", value="DEBUG")
 #/subsystem=logging/logger=com.tns.core:assign-handler(name="ml-log")
 
-/subsystem=undertow/configuration=handler/file=dashboard:add(path="${jboss.home.dir}/dashboard", directory-listing="false")
-/subsystem=undertow/server=default-server/host=default-host/location=dashboard:add(handler=dashboard)
+#/subsystem=undertow/configuration=handler/file=dashboard:add(path="${jboss.home.dir}/dashboard", directory-listing="false")
+#/subsystem=undertow/server=default-server/host=default-host/location=dashboard:add(handler=dashboard)
 
- /subsystem=ee:write-attribute(name="global-modules",value=[{"name" => "com.fasterxml.jackson.datatype.jackson-datatype-jsr310","slot" => "main"}])
+/subsystem=ee:write-attribute(name="global-modules",value=[{"name" => "com.fasterxml.jackson.datatype.jackson-datatype-jsr310","slot" => "main"}])
   
 #create the queue
 /subsystem=messaging-activemq/server=default/jms-queue=IrisQueue:add(entries=[java:/jms/queue/IrisQueue])

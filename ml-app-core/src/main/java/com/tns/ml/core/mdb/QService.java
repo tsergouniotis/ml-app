@@ -19,7 +19,7 @@ public class QService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(QService.class);
 
-	@Resource(mappedName = "java:/jms/queue/OEDesignQueue")
+	@Resource(mappedName = "java:/jms/queue/IrisQueue")
 	private Queue oedQueue;
 
 	@Resource(mappedName = "java:/ConnectionFactory")
